@@ -4,17 +4,22 @@
  *
  * @head: the head.
  * @n: the element.
+ * @opcode: to keep opcode the same.
+ * @fd: the file
  *
  * Return: address of new node or NULL on failure.
  */
 
-stack_t *add_node(stack_t **head, const int n)
+stack_t *add_node(stack_t **head, const int n, char *opcode, FILE *fd)
 {
 	stack_t *new = malloc(sizeof(stack_t));
 
 	if (new == NULL)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		freeList(*head);
+		free(opcode);
+		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
 

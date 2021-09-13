@@ -31,17 +31,21 @@ void pushOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	add_node(stack, i);
+	add_node(stack, i, opcode, fd);
 }
 /**
  * pallOP - performs pall
  *
  * @stack: the list
  * @line_num: line number.
+ * @opcode: to keep opcode the same.
+ * @fd: the file
  *
  */
-void pallOP(stack_t **stack, unsigned int line_num)
+void pallOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
+	(void)opcode;
+	(void)fd;
 	(void)line_num;
 	if (*stack)
 	{
@@ -53,34 +57,46 @@ void pallOP(stack_t **stack, unsigned int line_num)
  *
  * @stack: the list
  * @line_num: line number.
+ * @opcode: to keep opcode the same.
+ * @fd: the file
  *
  */
-void pintOP(stack_t **stack, unsigned int line_num)
+void pintOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
 	stack = stack;
 	line_num = line_num;
+	opcode = opcode;
+	fd = fd;
 }
 /**
  * popOP - performs pop op
  *
  * @stack: the list
  * @line_num: line number.
+ * @opcode: to keep opcode the same.
+ * @fd: the file
  *
  */
-void popOP(stack_t **stack, unsigned int line_num)
+void popOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
 	stack = stack;
 	line_num = line_num;
+	opcode = opcode;
+	fd = fd;
 }
 /**
  * swapOP - performs swap op
  *
  * @stack: the list
  * @line_num: line number.
+ * @opcode: to keep opcode the same.
+ * @fd: the file
  *
  */
-void swapOP(stack_t **stack, unsigned int line_num)
+void swapOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
 	stack = stack;
 	line_num = line_num;
+	opcode = opcode;
+	fd = fd;
 }

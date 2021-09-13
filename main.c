@@ -42,27 +42,21 @@ int main(int argc, char **argv)
  *
  */
 
-void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
+void opcode_exe(stack_t **stack, unsigned int line, char *opcode, FILE *fd)
 {
 	int j, flag = 0;
 
-	instruction_t opStruct[] = { { "pall", pallOP }, { "pint", pintOP },
-				     { "pop", popOP },	 { "swap", swapOP },
-				     { "add", addOP },	 { "nop", NULL },
-				     { NULL, NULL } };
+	instruction_t opStruct[] = { { "push", pushOP }, { "pall", pallOP },
+				     { "pint", pintOP }, { "pop", popOP },
+				     { "swap", swapOP }, { "add", addOP },
+				     { "nop", NULL },	 { NULL, NULL } };
 	/* start itterating the struct */
 	for (j = 0; opStruct[j].opcode != NULL; j++)
 	{
-		if (strcmp("push", opGlobal[0]) == 0)
-		{
-			pushOP(stack, line, opcode, fd);
-			flag = 1;
-			break;
-		}
 		/* strcmp to match struct to global variable*/
 		if (strcmp(opStruct[j].opcode, opGlobal[0]) == 0)
 		{ /* get and run function*/
-			opStruct[j].f(stack, line);
+			opStruct[j].f(stack, line, opcode, fd);
 			flag = 1;
 			break;
 		}
@@ -103,23 +97,25 @@ void opcode_finder(FILE *fd)
 			{
 				if (opcode[j] == '\n' || check == 1)
 					break;
-				if (opcode[j] == ' ')
+				if (opcode[j] == ' ' || opcode[j] == '\t')
 					check = 0;
 				else
-					check = 1;
-			}
+					check = 1;	}
+			if (check == 0)
+				continue;
 			/*tokenize space and newlines*/
-			opGlobal[0] = strtok(opcode, " \n");
+			opGlobal[0] = strtok(opcode, " \n\t");
 			/*keep tokenizing for each line*/
 			if (!opGlobal[0])
-				opGlobal[0] = strtok(NULL, " \n");
+				opGlobal[0] = strtok(NULL, " \n\t");
+			if (opGlobal[0][0] == '#')
+				continue;
 			/* tokenize the space between the argv's*/
-			opGlobal[1] = strtok(NULL, " \n");
+			opGlobal[1] = strtok(NULL, " \n\t");
 			/* run function executor */
 			opcode_exe(&stack, line, opcode, fd);
 		}
-		line++;
-	}
+		line++;	}
 	if (stack)
 		freeList(stack);
 	free(opcode);
