@@ -73,8 +73,8 @@ void opcode_exe(stack_t **stack, int line)
 }
 /**
  * opcode_finder - parses the file to find opcodes
- * 
- * @fd: the file 
+ *
+ * @fd: the file
  */
 void opcode_finder(FILE *fd)
 {
@@ -85,25 +85,21 @@ void opcode_finder(FILE *fd)
 	stack_t *stack = NULL;
 
 	line = 1;
-	/*itterating for each line in file*/
-	while (line)
+	while (line) /*itterating for each line in file*/
 	{	/*read and store/malloc in check*/
 		check = getline(&opcode, &opLength, fd);
-		/*checks for End of File*/
-		if (check == EOF)
+		if (check == EOF) /*checks for End of File*/
 			break;
 		if (check == 1)
 			continue;
-		/*handles no input*/
-		for (j = 0; opcode[0] != '\0'; j++)
+		for (j = 0; opcode[0] != '\0'; j++) /*handles no input*/
 		{
 			if (opcode[j] == '\n' || check == 1)
 				break;
 			if (opcode[j] == ' ')
 				check = 0;
 			else
-				check = 1;
-		}
+				check = 1;	}
 		if (check == 0)
 			continue;
 		/*tokenize space and newlines*/
