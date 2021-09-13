@@ -5,6 +5,8 @@
  *
  * @stack: the list
  * @line_num: line number.
+ * @opcode: to keep opcode the same.
+ * @fd: the file
  *
  */
 

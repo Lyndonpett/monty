@@ -56,10 +56,12 @@ void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 	};
 	/* start itterating the struct */
 	for (j = 0; opStruct[j].opcode != NULL; j++)
-	{	
+	{
 		if (strcmp("push", opGlobal[0]) == 0)
 		{
 			pushOP(stack, line, opcode, fd);
+			check = 1;
+			break;
 		}
 		/* strcmp to match struct to global variable*/
 		if (strcmp(opStruct[j].opcode, opGlobal[0]) == 0)
