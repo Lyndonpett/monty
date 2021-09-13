@@ -36,6 +36,8 @@ int main(int argc, char **argv)
  *
  * @stack: the list
  * @line: the line number
+ * @opcode: to keep opcode the same.
+ * @fd: the file
  *
  */
 
