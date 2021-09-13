@@ -91,3 +91,19 @@ void freeList(stack_t *head)
 		}
 	}
 }
+/**
+ * errorEXIT - helps push exit
+ *
+ * @stack: the stack
+ * @line_num: the line number
+ * @opcode: the opcode
+ * @fd: the file
+ */
+void errorEXIT(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
+{
+	dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_num);
+	freeList(*stack);
+	free(opcode);
+	fclose(fd);
+	exit(EXIT_FAILURE);
+}

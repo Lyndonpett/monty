@@ -12,24 +12,31 @@
 
 void pushOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
-	int i;
+	int i, j;
 
 	if (!opGlobal[1])
 	{
-		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_num);
-		freeList(*stack);
-		free(opcode);
-		fclose(fd);
-		exit(EXIT_FAILURE);
+		errorEXIT(stack, line_num, opcode, fd);
 	}
-	i = atoi(opGlobal[1]);
-	if (i == 0 && opGlobal[1][0] != '0')
+	for (j = 0; opGlobal[1][j] != '\0'; j++)
 	{
-		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_num);
-		freeList(*stack);
-		free(opcode);
-		fclose(fd);
-		exit(EXIT_FAILURE);
+		if (isalpha(opGlobal[1][j]) != 0)
+		{
+			errorEXIT(stack, line_num, opcode, fd);
+		}
+	}
+	if (strcmp(opGlobal[1], "0") == 0 || strcmp(opGlobal[1], "-0") == 0)
+	{
+		i = 0;
+	}
+	else
+	{
+		i = atoi(opGlobal[1]);
+
+		if (i == 0)
+		{
+			errorEXIT(stack, line_num, opcode, fd);
+		}
 	}
 	add_node(stack, i, opcode, fd);
 }
