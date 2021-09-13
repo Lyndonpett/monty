@@ -1,6 +1,6 @@
 #include "monty.h"
 
-char *opGlobal[3] = {NULL, NULL, "stack"};
+char *opGlobal[3] = { NULL, NULL, "stack" };
 
 /**
  * main - runs the monty
@@ -15,15 +15,16 @@ int main(int argc, char **argv)
 {
 	FILE *fd;
 
-	if (argc != 2)/*checks if correct amount of argcs*/
+	if (argc != 2) /*checks if correct amount of argcs*/
 	{
 		dprintf(STDERR_FILENO, "Error: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	fd = fopen(argv[1], "r");/*opens and reads file*/
-	if (fd == NULL)/*checks if file is valid*/
+	fd = fopen(argv[1], "r"); /*opens and reads file*/
+	if (fd == NULL) /*checks if file is valid*/
 	{
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[1]);
+		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
 	opcode_finder(fd);
@@ -45,15 +46,10 @@ void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 {
 	int j, flag = 0;
 
-	instruction_t opStruct[] = {
-		{"pall", pallOP},
-		{"pint", pintOP},
-		{"pop", popOP},
-		{"swap", swapOP},
-		{"add", addOP},
-		{"nop", NULL},
-		{NULL, NULL}
-	};
+	instruction_t opStruct[] = { { "pall", pallOP }, { "pint", pintOP },
+				     { "pop", popOP },	 { "swap", swapOP },
+				     { "add", addOP },	 { "nop", NULL },
+				     { NULL, NULL } };
 	/* start itterating the struct */
 	for (j = 0; opStruct[j].opcode != NULL; j++)
 	{
@@ -65,7 +61,7 @@ void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 		}
 		/* strcmp to match struct to global variable*/
 		if (strcmp(opStruct[j].opcode, opGlobal[0]) == 0)
-		{	/* get and run function*/
+		{ /* get and run function*/
 			opStruct[j].f(stack, line);
 			flag = 1;
 			break;
@@ -76,9 +72,9 @@ void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 	{
 		dprintf(STDERR_FILENO, "L%u: unknown instruction %s\n", line,
 			opGlobal[0]);
-			free(opcode);
-			freeList(*stack);
-			fclose(fd);
+		free(opcode);
+		freeList(*stack);
+		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -89,7 +85,7 @@ void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
  */
 void opcode_finder(FILE *fd)
 {
-	unsigned int line = 0;
+	unsigned int line;
 	int check = 0, j = 0;
 	char *opcode = NULL;
 	size_t opLength = 0;
@@ -97,35 +93,33 @@ void opcode_finder(FILE *fd)
 
 	line = 1;
 	while (line) /*itterating for each line in file*/
-	{	/*read and store/malloc in check*/
+	{ /*read and store/malloc in check*/
 		check = getline(&opcode, &opLength, fd);
 		if (check == EOF) /*checks for End of File*/
 			break;
-		if (check == 1)
-			continue;
-		for (j = 0; opcode[0] != '\0'; j++) /*handles no input*/
+		if (check > 1)
 		{
-			if (opcode[j] == '\n' || check == 1)
-				break;
-			if (opcode[j] == ' ')
-				check = 0;
-			else
-				check = 1;	}
-		if (check == 0)
-			continue;
-		/*tokenize space and newlines*/
-		opGlobal[0] = strtok(opcode, " \n");
-		/*keep tokenizing for each line*/
-		if (!opGlobal[0])
-			opGlobal[0] = strtok(NULL, " \n");
-		/*checks for # */
-		if (opGlobal[0][0] == '#')/*checks for # */
-			continue;
-		/* tokenize the space between the argv's*/
-		opGlobal[1] = strtok(NULL, " \n");
-		/* run function executor */
-		opcode_exe(&stack, line, opcode, fd);
-		line++; }
+			for (j = 0; opcode[0] != '\0'; j++) /*handles no input*/
+			{
+				if (opcode[j] == '\n' || check == 1)
+					break;
+				if (opcode[j] == ' ')
+					check = 0;
+				else
+					check = 1;
+			}
+			/*tokenize space and newlines*/
+			opGlobal[0] = strtok(opcode, " \n");
+			/*keep tokenizing for each line*/
+			if (!opGlobal[0])
+				opGlobal[0] = strtok(NULL, " \n");
+			/* tokenize the space between the argv's*/
+			opGlobal[1] = strtok(NULL, " \n");
+			/* run function executor */
+			opcode_exe(&stack, line, opcode, fd);
+		}
+		line++;
+	}
 	if (stack)
 		freeList(stack);
 	free(opcode);
