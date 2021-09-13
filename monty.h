@@ -42,7 +42,7 @@ typedef struct instruction_s
 
 /* ProtoTypes */
 int main(int argc, char **argv);
-void opcode_exe(int line, stack_t **stack);
+void opcode_exe(stack_t **stack, int line);
 void opcode_finder(FILE *fd);
 void pushOP(stack_t **stack, unsigned int line_num);
 void pallOP(stack_t **stack, unsigned int line_num);
@@ -50,6 +50,9 @@ void pintOP(stack_t **stack, unsigned int line_num);
 void popOP(stack_t **stack, unsigned int line_num);
 void swapOP(stack_t **stack, unsigned int line_num);
 void addOP(stack_t **stack, unsigned int line_num);
+stack_t *add_node(stack_t **head, const int n);
+size_t pallHELPER(const stack_t *h);
+
 
 
 
