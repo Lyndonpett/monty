@@ -24,12 +24,12 @@ int main(int argc, char **argv)
 	if (fd == NULL) /*checks if file is valid*/
 	{
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[1]);
-		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
 	opcode_finder(fd);
-	fclose(fd);
-	return (0);
+	if (fclose(fd) != 0)
+		exit(EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 /**
