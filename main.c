@@ -1,6 +1,6 @@
 #include "monty.h"
 
-char *opGlobal[3] = { NULL, NULL, "stack" };
+char *opGlobal[] = { NULL, NULL, "stack" };
 
 /**
  * main - runs the monty

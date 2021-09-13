@@ -17,6 +17,7 @@ stack_t *add_node(stack_t **head, const int n, char *opcode, FILE *fd)
 	if (new == NULL)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		free(new);
 		freeList(*head);
 		free(opcode);
 		fclose(fd);
