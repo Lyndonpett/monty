@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 
 void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 {
-	int j, check = 0;
+	int j, flag = 0;
 
 	instruction_t opStruct[] = {
 		{"pall", pallOP},
@@ -60,19 +60,19 @@ void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 		if (strcmp("push", opGlobal[0]) == 0)
 		{
 			pushOP(stack, line, opcode, fd);
-			check = 1;
+			flag = 1;
 			break;
 		}
 		/* strcmp to match struct to global variable*/
 		if (strcmp(opStruct[j].opcode, opGlobal[0]) == 0)
 		{	/* get and run function*/
 			opStruct[j].f(stack, line);
-			check = 1;
+			flag = 1;
 			break;
 		}
 	}
 	/* print error if no file is found*/
-	if (check != 1)
+	if (flag != 1)
 	{
 		dprintf(STDERR_FILENO, "L%u: unknown instruction %s\n", line,
 			opGlobal[0]);
