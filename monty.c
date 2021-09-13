@@ -8,19 +8,25 @@
  *
  */
 
-void pushOP(stack_t **stack, unsigned int line_num)
+void pushOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
 	int i;
 
 	if (!opGlobal[1])
 	{
 		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_num);
+		freeList(*stack);
+		free(opcode);
+		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
 	i = atoi(opGlobal[1]);
 	if (i == 0 && opGlobal[1][0] != '0')
 	{
 		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_num);
+		freeList(*stack);
+		free(opcode);
+		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
 	add_node(stack, i);

@@ -44,7 +44,7 @@ typedef struct instruction_s
 int main(int argc, char **argv);
 void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd);
 void opcode_finder(FILE *fd);
-void pushOP(stack_t **stack, unsigned int line_num);
+void pushOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd);
 void pallOP(stack_t **stack, unsigned int line_num);
 void pintOP(stack_t **stack, unsigned int line_num);
 void popOP(stack_t **stack, unsigned int line_num);
@@ -53,6 +53,7 @@ void addOP(stack_t **stack, unsigned int line_num);
 stack_t *add_node(stack_t **head, const int n);
 size_t pallHELPER(const stack_t *h);
 void freeList(stack_t *head);
+
 
 
 

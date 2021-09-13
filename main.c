@@ -46,7 +46,6 @@ void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 	int j, check = 0;
 
 	instruction_t opStruct[] = {
-		{"push", pushOP},
 		{"pall", pallOP},
 		{"pint", pintOP},
 		{"pop", popOP},
@@ -57,7 +56,12 @@ void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 	};
 	/* start itterating the struct */
 	for (j = 0; opStruct[j].opcode != NULL; j++)
-	{	/* strcmp to match struct to global variable*/
+	{	
+		if (strcmp("push", opGlobal[0]) == 0)
+		{
+			pushOP(stack, line, opcode, fd);
+		}
+		/* strcmp to match struct to global variable*/
 		if (strcmp(opStruct[j].opcode, opGlobal[0]) == 0)
 		{	/* get and run function*/
 			opStruct[j].f(stack, line);
