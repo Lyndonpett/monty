@@ -39,7 +39,7 @@ int main(int argc, char **argv)
  *
  */
 
-void opcode_exe(stack_t **stack, int line)
+void opcode_exe(stack_t **stack, int line, char *opcode, FILE *fd)
 {
 	int j, check = 0;
 
@@ -68,6 +68,9 @@ void opcode_exe(stack_t **stack, int line)
 	{
 		dprintf(STDERR_FILENO, "L%u: unknown instruction %s\n", line,
 			opGlobal[0]);
+			free(opcode);
+			freeList(*stack);
+			fclose(fd);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -113,7 +116,7 @@ void opcode_finder(FILE *fd)
 		/* tokenize the space between the argv's*/
 		opGlobal[1] = strtok(NULL, " \n");
 		/* run function executor */
-		opcode_exe(&stack, line);
+		opcode_exe(&stack, line, opcode, fd);
 		line++; }
 	if (stack)
 		freeList(stack);
