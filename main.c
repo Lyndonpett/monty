@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 
 	if (argc != 2) /*checks if correct amount of argcs*/
 	{
-		dprintf(STDERR_FILENO, "Error: monty file\n");
+		dprintf(STDERR_FILENO, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
 	fd = fopen(argv[1], "r"); /*opens and reads file*/
