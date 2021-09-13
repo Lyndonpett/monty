@@ -14,11 +14,6 @@ char *opGlobal[3] = {NULL, NULL, "stack"};
 int main(int argc, char **argv)
 {
 	FILE *fd;
-	unsigned int line;
-	int check = 0, j;
-	char *opcode = NULL;
-	size_t opLength = 0;
-	stack_t *stack = NULL;
 
 	if (argc != 2)/*checks if correct amount of argcs*/
 	{
@@ -31,26 +26,7 @@ int main(int argc, char **argv)
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	line = 1;
-	while (line) /*itterating for each line in file*/
-	{
-		check = getline(&opcode, &opLength, fd);/*read and store/malloc in check*/
-		if (check == EOF)/*checks for End of File*/
-			break;
-		for (j = 0; opcode[0] != '\0'; j++) /*handles no input*/
-			if (opcode[j] == '\n' || check == 1)
-				break;
-		opGlobal[0] = strtok(opcode, " \n");/*tokenize space and newlines*/
-		if (!opGlobal[0])/*keep tokenizing for each line*/
-			opGlobal[0] = strtok(NULL, " \n");
-		if (opGlobal[0][0] == '#')/*checks for # */
-			continue;
-		opGlobal[1] = strtok(NULL, " \n");/* tokenize the space between the argv's*/
-		opcode_exe(&stack, line);/* run function executor */
-		line++; }
-	if (stack)
-		freeList(stack);
-	free(opcode);
+	opcode_finder(fd);
 	fclose(fd);
 	return (0);
 }
@@ -94,4 +70,56 @@ void opcode_exe(stack_t **stack, int line)
 			opGlobal[0]);
 		exit(EXIT_FAILURE);
 	}
+}
+/**
+ * opcode_finder - parses the file to find opcodes
+ * 
+ * @fd: the file 
+ */
+void opcode_finder(FILE *fd)
+{
+	unsigned int line = 0;
+	int check = 0, j = 0;
+	char *opcode = NULL;
+	size_t opLength = 0;
+	stack_t *stack = NULL;
+
+	line = 1;
+	/*itterating for each line in file*/
+	while (line)
+	{	/*read and store/malloc in check*/
+		check = getline(&opcode, &opLength, fd);
+		/*checks for End of File*/
+		if (check == EOF)
+			break;
+		if (check == 1)
+			continue;
+		/*handles no input*/
+		for (j = 0; opcode[0] != '\0'; j++)
+		{
+			if (opcode[j] == '\n' || check == 1)
+				break;
+			if (opcode[j] == ' ')
+				check = 0;
+			else
+				check = 1;
+		}
+		if (check == 0)
+			continue;
+		/*tokenize space and newlines*/
+		opGlobal[0] = strtok(opcode, " \n");
+		/*keep tokenizing for each line*/
+		if (!opGlobal[0])
+			opGlobal[0] = strtok(NULL, " \n");
+		/*checks for # */
+		if (opGlobal[0][0] == '#')/*checks for # */
+			continue;
+		/* tokenize the space between the argv's*/
+		opGlobal[1] = strtok(NULL, " \n");
+		/* run function executor */
+		opcode_exe(&stack, line);
+		line++; }
+	if (stack)
+		freeList(stack);
+	free(opcode);
 }
