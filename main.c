@@ -3,10 +3,12 @@
 char *opGlobal[3] = {NULL, NULL, "stack"};
 
 /**
- * @brief
+ * main - runs the monty
  *
+ * @argc: the argument count
+ * @argv: the individual arguments
  *
- *
+ * Return: 0
  */
 
 int main(int argc, char **argv)
@@ -47,16 +49,17 @@ int main(int argc, char **argv)
 		opcode_exe(&stack, line);/* run function executor */
 		line++; }
 	if (stack)
-		free(stack); /* need to add function here for freeing the list */
+		freeList(stack);
 	free(opcode);
 	fclose(fd);
 	return (0);
 }
 
 /**
- * @brief
+ * opcode_exe - executes the found opcode
  *
- *
+ * @stack: the list
+ * @line: the line number
  *
  */
 

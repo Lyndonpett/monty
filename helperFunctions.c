@@ -1,6 +1,6 @@
 #include "monty.h"
 /**
- * add_dnodeint - adds a new node at the beginning of a list.
+ * add_node - adds a new node at the beginning of a list.
  *
  * @head: the head.
  * @n: the element.
@@ -14,7 +14,8 @@ stack_t *add_node(stack_t **head, const int n)
 
 	if (new == NULL)
 	{
-		return (NULL);
+		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
 	}
 
 	new->n = n;
@@ -34,7 +35,7 @@ stack_t *add_node(stack_t **head, const int n)
 	return (new);
 }
 /**
- * print_dlistint - prints a list.
+ * pallHELPER - prints a list.
  *
  * @h: the starting node.
  *
@@ -53,4 +54,34 @@ size_t pallHELPER(const stack_t *h)
 		current = current->next;
 	}
 	return (count);
+}
+
+/**
+ * freeList - frees a list.
+ *
+ * @head: the head.
+ *
+ * Return: void.
+ */
+
+void freeList(stack_t *head)
+{
+	stack_t *freed = head;
+
+	while (freed != NULL)
+	{
+		if (freed->prev != NULL)
+		{
+			free(freed->prev);
+		}
+		if (freed->next == NULL)
+		{
+			free(freed);
+			return;
+		}
+		else
+		{
+			freed = freed->next;
+		}
+	}
 }

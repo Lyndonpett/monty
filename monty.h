@@ -52,6 +52,8 @@ void swapOP(stack_t **stack, unsigned int line_num);
 void addOP(stack_t **stack, unsigned int line_num);
 stack_t *add_node(stack_t **head, const int n);
 size_t pallHELPER(const stack_t *h);
+void freeList(stack_t *head);
+
 
 
 

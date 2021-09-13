@@ -1,9 +1,10 @@
 #include "monty.h"
 
 /**
- * @brief
+ * pushOP - performs push op
  *
- *
+ * @stack: the list
+ * @line_num: line number.
  *
  */
 
@@ -24,6 +25,13 @@ void pushOP(stack_t **stack, unsigned int line_num)
 	}
 	add_node(stack, i);
 }
+/**
+ * pallOP - performs pall
+ *
+ * @stack: the list
+ * @line_num: line number.
+ *
+ */
 void pallOP(stack_t **stack, unsigned int line_num)
 {
 	(void)line_num;
@@ -32,22 +40,38 @@ void pallOP(stack_t **stack, unsigned int line_num)
 		pallHELPER(*stack);
 	}
 }
+/**
+ * pintOP - performs pint
+ *
+ * @stack: the list
+ * @line_num: line number.
+ *
+ */
 void pintOP(stack_t **stack, unsigned int line_num)
 {
 	stack = stack;
 	line_num = line_num;
 }
+/**
+ * popOP - performs pop op
+ *
+ * @stack: the list
+ * @line_num: line number.
+ *
+ */
 void popOP(stack_t **stack, unsigned int line_num)
 {
 	stack = stack;
 	line_num = line_num;
 }
+/**
+ * swapOP - performs swap op
+ *
+ * @stack: the list
+ * @line_num: line number.
+ *
+ */
 void swapOP(stack_t **stack, unsigned int line_num)
-{
-	stack = stack;
-	line_num = line_num;
-}
-void addOP(stack_t **stack, unsigned int line_num)
 {
 	stack = stack;
 	line_num = line_num;
