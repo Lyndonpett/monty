@@ -54,6 +54,7 @@ stack_t *add_node(stack_t **head, const int n, char *opcode, FILE *fd);
 size_t pallHELPER(const stack_t *h);
 void freeList(stack_t *head);
 void errorEXIT(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd);
+void nopOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd);
 
 
 

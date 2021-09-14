@@ -53,7 +53,7 @@ void opcode_exe(stack_t **stack, unsigned int line, char *opcode, FILE *fd)
 			{"pop", popOP},
 		    {"swap", swapOP},
 			{"add", addOP},
-		    {"nop", NULL},
+		    {"nop", nopOP},
 			{NULL, NULL}
 };
 
