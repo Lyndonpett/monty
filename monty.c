@@ -97,10 +97,38 @@ void pintOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
  */
 void popOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
-	stack = stack;
-	line_num = line_num;
-	opcode = opcode;
-	fd = fd;
+	stack_t *tmp;
+
+	if ((*stack) == NULL)
+	{
+		dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n",
+			line_num);
+		freeList(*stack);
+		free(opcode);
+		fclose(fd);
+		exit(EXIT_FAILURE);
+	}
+	tmp = *stack;
+	while (tmp->prev != NULL)
+	{
+		tmp = tmp->prev;
+	}
+	if (tmp->next != NULL)
+	{
+		tmp->next->prev = NULL;
+	}
+	if (tmp == *stack)
+	{
+		if ((*stack)->next != NULL)
+		{
+			*stack = (*stack)->next;
+		}
+		else
+		{
+			*stack = NULL;
+		}
+	}
+	free(tmp);
 }
 /**
  * swapOP - performs swap op
