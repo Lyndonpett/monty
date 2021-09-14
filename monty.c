@@ -141,22 +141,24 @@ void popOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
  */
 void swapOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
-	stack_t *tmp;
+	stack_t *tmp, *cog;
+	int n;
 
-	tmp = *stack;
-	if (tmp == NULL || (tmp->next == NULL && tmp->prev == NULL))
+	if (*stack == NULL ||
+	    (((*stack)->prev == NULL) && (*stack)->next == NULL))
 	{
 		dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n",
 			line_num);
-		free(tmp);
 		freeList(*stack);
 		free(opcode);
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	tmp->prev = tmp->next;
-	tmp->next->prev = NULL;
-	tmp->next = tmp->next->next;
-	tmp->prev->next = tmp;
-	(*stack) = tmp->prev;
+	for (tmp = *stack; tmp->prev; tmp = tmp->prev)
+	{
+	}
+	cog = tmp->next;
+	n = tmp->n;
+	tmp->n = cog->n;
+	cog->n = n;
 }
