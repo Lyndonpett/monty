@@ -70,10 +70,21 @@ void pallOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
  */
 void pintOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
-	stack = stack;
-	line_num = line_num;
-	opcode = opcode;
-	fd = fd;
+	stack_t *tmp;
+
+	if (*stack == NULL)
+	{
+		dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n",
+			line_num);
+		freeList(*stack);
+		free(opcode);
+		fclose(fd);
+		exit(EXIT_FAILURE);
+	}
+	tmp = *stack;
+	while (tmp->prev != NULL)
+		tmp = tmp->prev;
+	printf("%i\n", tmp->n);
 }
 /**
  * popOP - performs pop op
