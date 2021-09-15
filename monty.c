@@ -14,25 +14,25 @@ void pushOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 {
 	int i, j;
 
-	if (!opGlobal[1])
+	if (!opGlobal[1]) /*checks if theres a second arg */
 	{
 		errorEXIT(stack, line_num, opcode, fd);
-	}
+	} /* itterate string to check for character*/
 	for (j = 0; opGlobal[1][j] != '\0'; j++)
 	{
 		if (isalpha(opGlobal[1][j]) != 0)
 		{
 			errorEXIT(stack, line_num, opcode, fd);
 		}
-	}
+	} /* handles 0 edgecase so atoi passes */
 	if (strcmp(opGlobal[1], "0") == 0 || strcmp(opGlobal[1], "-0") == 0)
 	{
 		i = 0;
 	}
 	else
-	{
+	{ /* atoi number */
 		i = atoi(opGlobal[1]);
-
+		/* checks if atoi failed */
 		if (i == 0)
 		{
 			errorEXIT(stack, line_num, opcode, fd);

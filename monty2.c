@@ -16,7 +16,7 @@ void addOP(stack_t **stack, unsigned int line_num, char *opcode, FILE *fd)
 	if (*stack == NULL ||
 	    (((*stack)->prev == NULL) && (*stack)->next == NULL))
 	{
-		dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n",
+		dprintf(STDERR_FILENO, "L%d: can't add, stack too short\n",
 			line_num);
 		freeList(*stack);
 		free(opcode);

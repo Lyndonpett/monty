@@ -26,8 +26,8 @@ int main(int argc, char **argv)
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	opcode_finder(fd);
-	if (fclose(fd) != 0)
+	opcode_finder(fd); /* calls function to read file */
+	if (fclose(fd) != 0) /* checks if close failed */
 		exit(EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -98,10 +98,10 @@ void opcode_finder(FILE *fd)
 		check = getline(&opcode, &opLength, fd);
 		if (check == EOF) /*checks for End of File*/
 			break;
-		if (check > 1)
+		if (check > 1) /* checks if there's input */
 		{
 			for (j = 0; opcode[0] != '\0'; j++) /*handles no input*/
-			{
+			{	 /* checks for newline or if check is 1*/
 				if (opcode[j] == '\n' || check == 1)
 					break;
 				if (opcode[j] == ' ' || opcode[j] == '\t')
@@ -115,7 +115,7 @@ void opcode_finder(FILE *fd)
 			opGlobal[0] = strtok(opcode, " \n\t");
 			if (strcmp(opGlobal[0], "push") == 0)/*keep tokenizing for next argument*/
 				opGlobal[1] = strtok(NULL, " \n\t");
-			else
+			else /*maybe not, maybe so*/
 				opGlobal[1] = strtok(NULL, " \n\t");
 			if (opGlobal[0][0] == '#')
 				continue;
